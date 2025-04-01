@@ -1,1 +1,1 @@
-# ssgenerator
+# Static Site Generator project
