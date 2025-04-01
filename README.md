@@ -1,1 +1,1 @@
-# Static Site Generator project
+# <--- Static Site Generator --->
