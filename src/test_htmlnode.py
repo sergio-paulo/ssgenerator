@@ -20,7 +20,18 @@ class TestHTMLNode(unittest.TestCase):
         
     def test_repr(self):
         node = HTMLNode("p", "just som text")
-        self.assertEqual(repr(node), "HTMLNode(tag=p, value=just som text, children=None, props=None)")
+        self.assertEqual(repr(node), "HTMLNode(p, just som text, children=None, None)")
+        
+    def test_repr_props(self):
+        node = HTMLNode(
+            "a",
+            "backend",
+            None,
+            {"href": "www.boot.dev", "class": "btn btn-primary"}
+        )
+        self.assertEqual(
+            repr(node),
+            "HTMLNode(a, backend, children=None, {'href': 'www.boot.dev', 'class': 'btn btn-primary'})")
         
     def test_props_to_html(self):
         node = HTMLNode("a", "backend", None, {"href": "www.boot.dev"})
