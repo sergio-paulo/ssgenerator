@@ -5,7 +5,7 @@ main
 
 from textnode import TextNode, TextType
 from htmlnode import HTMLNode, ParentNode, LeafNode
-from inline_markdown import split_nodes_delimiter
+from inline_markdown import split_nodes_delimiter, extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link, text_to_textnodes
 
 def main():
     """
@@ -85,8 +85,24 @@ def main():
     print(node.to_html())
     '''
     
-    node2 = TextNode("This is text with a `code block` word", TextType.TEXT)
-    new_nodes = split_nodes_delimiter([node2], "`", TextType.CODE)
-    print(new_nodes)
+
+    print("\n")
+    text = "This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+    nodes = text_to_textnodes(text)
+    print("[")
+    for node in nodes:
+        print(f"\t{node}")
+    print("]")
+    
+    print("\n")
+    node = TextNode(
+            "This is text with a link [to boot dev](https://www.boot.dev) and an image ![image](https://i.imgur.com/zjjcJKZ.png)",
+            TextType.TEXT,
+        )
+    new_nodes = split_nodes_link([node])
+    new_nodes = split_nodes_image(new_nodes)
+    for node in new_nodes:
+        print(node)
+
     
 main()
