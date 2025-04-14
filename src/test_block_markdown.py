@@ -1,5 +1,5 @@
 import unittest
-from block_markdown import markdown_to_blocks
+from block_markdown import BlockType, markdown_to_blocks, block_to_block_type
 
 class TestUtilities(unittest.TestCase):
     def test_markdown_to_blocks(self):
@@ -61,6 +61,46 @@ This is another paragraph with _italic_ text and `code` here
                 "This is **bolded** paragraph",
                 "This is another paragraph with _italic_ text and `code` here"
             ])
+        
+    def test_block_to_block_type_heading(self):
+        md = "# This is a heading"
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.HEADING)
+    
+    def test_block_to_block_type_heading_3(self):
+        md = "### This is a heading"
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.HEADING)
+        
+    def test_block_to_block_type_heading_6(self):
+        md = "###### This is a heading"
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.HEADING)
+        
+    def test_block_to_block_type_heading_7(self):
+        md = "####### This is a heading"
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.PARAGRAPH)
+        
+    def test_block_to_block_type_code(self):
+        md = "''' This is a code block\nwith multiline '''"
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.CODE)
+    
+    def test_block_to_block_type_quote(self):
+        md = "> This is the first line of a quote\n> This is the second line of a quote"
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.QUOTE)
+        
+    def test_block_to_block_type_unordered_list(self):
+        md = "- This is the first line of a list\n- This is the second line of a list"
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.ULIST)
+    
+    def test_block_to_block_type_ordered_list(self):
+        md = "1. This is the first line of a list\n2. This is the second line of a list\n11. This is the eleventh line of a list"
+        block_type = block_to_block_type(md)
+        self.assertEqual(block_type, BlockType.OLIST)
     
 if __name__ == "__main__":
     unittest.main()
