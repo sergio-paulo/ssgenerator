@@ -23,9 +23,11 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
     return new_node_list
 
 def extract_markdown_images(text):
+    # Extract markdown images from text in the form (alt text, link)
     return re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
 
 def extract_markdown_links(text):
+    # Extract markdown links from text in the form (link name, link url)
     return re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
 
 def split_nodes_image(old_nodes):

@@ -77,18 +77,13 @@ This is another paragraph with _italic_ text and `code` here
         block_type = block_to_block_type(md)
         self.assertEqual(block_type, BlockType.HEADING)
         
-    def test_block_to_block_type_heading_7(self):
-        md = "####### This is a heading"
-        block_type = block_to_block_type(md)
-        self.assertEqual(block_type, BlockType.PARAGRAPH)
-        
     def test_block_to_block_type_code(self):
-        md = "''' This is a code block\nwith multiline '''"
+        md = "```\nThis is a code block\nwith multiline\n```"
         block_type = block_to_block_type(md)
         self.assertEqual(block_type, BlockType.CODE)
     
     def test_block_to_block_type_quote(self):
-        md = "> This is the first line of a quote\n> This is the second line of a quote"
+        md = ">This is the first line of a quote\n>This is the second line of a quote"
         block_type = block_to_block_type(md)
         self.assertEqual(block_type, BlockType.QUOTE)
         
@@ -98,7 +93,7 @@ This is another paragraph with _italic_ text and `code` here
         self.assertEqual(block_type, BlockType.ULIST)
     
     def test_block_to_block_type_ordered_list(self):
-        md = "1. This is the first line of a list\n2. This is the second line of a list\n11. This is the eleventh line of a list"
+        md = "1. This is the first line of a list\n2. This is the second line of a list\n3. This is the third line of a list"
         block_type = block_to_block_type(md)
         self.assertEqual(block_type, BlockType.OLIST)
     

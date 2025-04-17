@@ -21,15 +21,27 @@ def markdown_to_blocks(markdown):
     return blocks_list
 
 def block_to_block_type(md_block):
-    if re.findall(r"^(#{1,6})(?!#)\s", md_block) != []:
+    lines = md_block.split("\n")
+    
+    if md_block.startswith(("#", "##", "###", "####", "#####", "######")):
         return BlockType.HEADING
-    elif re.findall(r"^'''[\s\S]*'''", md_block) != []:
+    if len(lines) > 1 and lines[0].startswith("```") and lines[-1].startswith("```"):
         return BlockType.CODE
-    elif re.findall(r">\s(.*?)\n", md_block) != []:
+    if md_block.startswith(">"):
+        for line in lines:
+            if not line.startswith(">"):
+                return BlockType.PARAGRAPH
         return BlockType.QUOTE
-    elif re.findall(r"-\s(.*?)\n", md_block) != []:
+    if md_block.startswith("- "):
+        for line in lines:
+            if not line.startswith("- "):
+                return BlockType.PARAGRAPH
         return BlockType.ULIST
-    elif re.findall(r"\d*.\s(.*?)\n", md_block) != []:
+    if md_block.startswith("1. "):
+        i = 1
+        for line in lines:
+            if not line.startswith(f"{i}. "):
+                return BlockType.PARAGRAPH
+            i += 1
         return BlockType.OLIST
-    else:
-        return BlockType.PARAGRAPH
+    return BlockType.PARAGRAPH

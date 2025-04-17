@@ -4,8 +4,8 @@ from htmlnode import HTMLNode, LeafNode, ParentNode
 
 class TestHTMLNode(unittest.TestCase):
     def test_eq(self):
-        node = HTMLNode("p", "just som text")
-        node2 = HTMLNode("p", "just som text")
+        node = HTMLNode("p", "just some text")
+        node2 = HTMLNode("p", "just some text")
         self.assertEqual(node, node2)
         
     def test_eq2(self):
@@ -14,13 +14,13 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(node, node2)
         
     def test_uneq(self):
-        node = HTMLNode("p", "just som text")
+        node = HTMLNode("p", "just some text")
         node2 = HTMLNode("p", "just some text2")
         self.assertNotEqual(node, node2)
         
     def test_repr(self):
-        node = HTMLNode("p", "just som text")
-        self.assertEqual(repr(node), "HTMLNode(p, just som text, children=None, None)")
+        node = HTMLNode("p", "just some text")
+        self.assertEqual(repr(node), "HTMLNode(p, just some text, children=None, None)")
         
     def test_repr_props(self):
         node = HTMLNode(
