@@ -44,6 +44,6 @@ class TextNode:
             case TextType.LINK:
                 return LeafNode("a", self.text, {"href": self.url})
             case TextType.IMAGE:
-                return LeafNode("img", None, {"src": self.url, "alt": self.text})
+                return LeafNode("img", "", {"src": self.url, "alt": self.text})
             case _:
                 raise ValueError(f"Unknown text type: {self.text_type}")

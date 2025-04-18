@@ -2,39 +2,33 @@
 """
 main
 """
-from md_html import markdown_to_html_node
+from copystatic import copy_tree
+from gencontent import generate_page
 import os
 import shutil
+
+dir_path_static = "./static/"
+dir_path_public = "./public/"
+dir_path_content = "./content/"
+template_path = "./template.html"
 
 def main():
     """
     Main function
     """
     
-    def copy_tree(src, dst):
-        """
-        Copy a directory tree
-        """
-        if os.path.exists(dst):
-            print(f"{dst} already exists, removing it")
-            shutil.rmtree(dst)
-        print(f"{dst} does not exist, creating it")
-        os.mkdir(dst)
-        
-        for item in os.listdir(src):
-            print(f"processing {item}")
-            src_path = os.path.join(src, item)
-            print(f"src_path: {src_path}")
-            dst_path = os.path.join(dst, item)
-            print(f"dst_path: {dst_path}")
-            if os.path.isdir(src_path):
-                print(f"copying directory {src_path} to {dst_path}")
-                copy_tree(src_path, dst_path)
-            else:
-                print(f"copying file {src_path} to {dst_path}")
-                shutil.copy(src_path, dst_path)
+    print("Deleting public directory...")
+    if os.path.exists(dir_path_public):
+            shutil.rmtree(dir_path_public)
     
-    copy_tree("./static", "./public")
+    print("Copying static directory to public directory...")
+    copy_tree(dir_path_static, dir_path_public)
+    
+    generate_page(
+        os.path.join(dir_path_content, "index.md"),
+        template_path,
+        os.path.join(dir_path_public, "index.html")
+    )    
     
 main()
 

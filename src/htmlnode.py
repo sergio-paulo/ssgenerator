@@ -21,10 +21,11 @@ class HTMLNode:
         """
         Convert the props to an HTML string.
         """
+        if not self.props:
+            return ""
         result = ""
-        if self.props:
-            for key, value in self.props.items():
-                result += f' {key}="{value}"'
+        for key, value in self.props.items():
+            result += f' {key}="{value}"'
         return result
 
 
@@ -69,7 +70,10 @@ class ParentNode(HTMLNode):
         if not self.children:
             raise ValueError("Parent node must have children")
         
-        return f"<{self.tag}{self.props_to_html()}>" + "".join([child.to_html() for child in self.children]) + f"</{self.tag}>"
+        children_html = ""
+        for child in self.children:
+            children_html += child.to_html()
+        return f"<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>"
         
     def __repr__(self):
         return f"ParentNode({self.tag}, children={self.children}, {self.props})"
