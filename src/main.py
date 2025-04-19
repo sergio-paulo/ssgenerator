@@ -3,7 +3,7 @@
 main
 """
 from copystatic import copy_tree
-from gencontent import generate_page
+from gencontent import generate_pages_recursive
 import os
 import shutil
 
@@ -24,24 +24,7 @@ def main():
     print("Copying static directory to public directory...")
     copy_tree(dir_path_static, dir_path_public)
     
-    generate_page(
-        os.path.join(dir_path_content, "index.md"),
-        template_path,
-        os.path.join(dir_path_public, "index.html")
-    )    
+    generate_pages_recursive(dir_path_content, template_path, dir_path_public)   
     
 main()
 
-'''
-    def list_files_recursive(path):
-        items = []
-        for entry in os.listdir(path):
-            full_path = os.path.join(path, entry)
-            items.append(full_path)
-            if os.path.isdir(full_path):
-                items.extend(list_files_recursive(full_path))
-        return items
-    
-    files = list_files_recursive("./static/")
-    print(f"files in ./static:\n{files}")
-'''

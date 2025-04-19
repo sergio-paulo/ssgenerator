@@ -1,6 +1,22 @@
 import os
 from md_html import markdown_to_html_node
 
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    """
+    Generate all the pages in a directory
+    """
+    for entry in os.listdir(dir_path_content):
+            src_path = os.path.join(dir_path_content, entry)
+            dst_path = os.path.join(dest_dir_path, entry)
+            if os.path.isdir(src_path):
+                if not os.path.exists(dst_path):
+                    os.mkdir(dst_path)
+                generate_pages_recursive(src_path, template_path, dst_path)
+            else:
+                dst_path = dst_path.replace(".md", ".html")
+                generate_page(src_path, template_path, dst_path)
+    
+
 def generate_page(from_path, template_path, dest_path):
     """
     Generate a page from a template
@@ -41,3 +57,17 @@ def extract_title(markdown):
         if line.startswith("# "):
             return line[2:]
     raise ValueError("No title found in markdown file")
+
+'''
+    def list_files_recursive(path):
+        items = []
+        for entry in os.listdir(path):
+            full_path = os.path.join(path, entry)
+            items.append(full_path)
+            if os.path.isdir(full_path):
+                items.extend(list_files_recursive(full_path))
+        return items
+    
+    files = list_files_recursive("./static/")
+    print(f"files in ./static:\n{files}")
+'''
